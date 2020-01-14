@@ -61,6 +61,7 @@ bookmarkRouter
 bookmarkRouter
     .route('/bookmarks/:id')
     .get((req, res) =>{
+        console.log('in here')
         const {id} = req.params;
         let itemres = {}
         store.bookmarks.forEach(item =>{ if (item.id === id){itemres = item; return item}});
@@ -69,7 +70,7 @@ bookmarkRouter
             return res.status(404)
             .send('bookmark not found')
         }
-        res.send(store.bookmarks);
+        res.send(itemres);
     })
     .delete((req, res) =>{
         const {id} = req.params;
@@ -86,8 +87,8 @@ bookmarkRouter
                 return item;
             }
         })
-        logger.info(`Bookmark with id ${bookmark_id} deleted.`);
-        res.status(204)
+        logger.info(`Bookmark with id ${itemres.id} deleted.`);
+        res.status(204).send(itemres)
         .end();
     })
 
