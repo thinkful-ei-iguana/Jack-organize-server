@@ -61,11 +61,12 @@ bookmarkRouter
 bookmarkRouter
     .route('/bookmarks/:id')
     .get((req, res) =>{
-        console.log('in here')
         const {id} = req.params;
-        let itemres = {}
+        let itemres;
+
         store.bookmarks.forEach(item =>{ if (item.id === id){itemres = item; return item}});
-        if(itemres === undefined){
+        console.log(itemres);
+        if(!itemres){
             logger.error(`Card with id ${id} not found.`);
             return res.status(404)
             .send('bookmark not found')
@@ -81,12 +82,13 @@ bookmarkRouter
             return res.status(404)
             .send('bookmark not found')
         }
-        console.log(store.bookmarks);
-        store.bookmarks =store.bookmarks.filter(item =>{
+        //console.log(store.bookmarks);
+        store.bookmarks = store.bookmarks.filter(item =>{
             if(item.id !== id){
                 return item;
             }
         })
+        console.log(store.bookmarks);
         logger.info(`Bookmark with id ${itemres.id} deleted.`);
         res.status(204).send(itemres)
         .end();
