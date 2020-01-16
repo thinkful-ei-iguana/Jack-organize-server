@@ -29,6 +29,6 @@ app.use(function errorHandler(error, req, res, next) {
     res.status(500).json(response)
 });
 
-app.use('/api', bookmarkRouter);
+app.use(bookmarkRouter);
 
 module.exports = app
