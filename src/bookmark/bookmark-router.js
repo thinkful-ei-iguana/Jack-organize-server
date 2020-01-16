@@ -102,7 +102,6 @@ bookmarkRouter
             return res.status(400)
         }
         let itemres;
-        let index;
 
         store.bookmarks.forEach(item =>{ if (item.id === id){itemres = item; index = item; return item}});
         if(!itemres){
@@ -122,10 +121,13 @@ bookmarkRouter
         if(!!rating){
             itemres.rating = rating;
         }
-
-        store.bookmarks = store.bookmarks.splice(store.bookmarks.findIndex(index), 1, itemres);
-
-        return res.status(204);
+        store.bookmarks = store.bookmarks.map(item =>{
+            if(item.id === id){
+                return itemres;
+            } 
+            return item;
+        })
+        return res.status(204).send({});
     })
 
 module.exports = bookmarkRouter
